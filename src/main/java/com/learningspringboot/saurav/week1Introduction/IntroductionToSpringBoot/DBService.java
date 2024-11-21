@@ -12,5 +12,6 @@ public class DBService {
 
     String getData(){
         return db.getData();
+
     }
 }
