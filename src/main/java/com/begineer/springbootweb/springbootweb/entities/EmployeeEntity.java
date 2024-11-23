@@ -9,11 +9,11 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name="employees")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="employees")
 public class EmployeeEntity {
 
     @Id
@@ -29,6 +29,6 @@ public class EmployeeEntity {
 
     private LocalDate date;
 
-    private Boolean isActive;
+    private Boolean active;
 
 }
