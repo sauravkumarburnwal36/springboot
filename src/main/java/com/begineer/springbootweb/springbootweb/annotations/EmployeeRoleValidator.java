@@ -1,0 +1,13 @@
+package com.begineer.springbootweb.springbootweb.annotations;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.List;
+
+public class EmployeeRoleValidator implements ConstraintValidator<EmployeeRoleValidation,String> {
+    @Override
+    public boolean isValid(String inputRole, ConstraintValidatorContext constraintValidatorContext) {
+        List<String> listRoles=List.of("ADMIN","USER");
+        return listRoles.contains(inputRole);
+    }
+}
