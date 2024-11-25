@@ -2,6 +2,7 @@ package com.begineer.springbootweb.springbootweb.services;
 
 import com.begineer.springbootweb.springbootweb.dto.EmployeeDTO;
 import com.begineer.springbootweb.springbootweb.entities.EmployeeEntity;
+import com.begineer.springbootweb.springbootweb.exceptions.ResourceNotFoundException;
 import com.begineer.springbootweb.springbootweb.repositories.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -40,9 +41,7 @@ public class EmployeeService {
     }
 
     public EmployeeDTO updateEmployeeById(Long id, EmployeeDTO employeeDTO) {
-        boolean exists = isExistById(id);
-        if (!exists)
-            return null;
+        isExistById(id);
         EmployeeEntity employeeEntity = modelMapper.map(employeeDTO, EmployeeEntity.class);
         employeeEntity.setId(id);
         EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);
@@ -55,23 +54,21 @@ public class EmployeeService {
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
 
-    public Boolean isExistById(Long id) {
-        return employeeRepository.existsById(id);
+    public void isExistById(Long id) {
+
+        boolean exists=employeeRepository.existsById(id);
+        if(!exists)
+            throw new ResourceNotFoundException("Employee Not Found with id: "+id);
     }
 
     public boolean deleteEmployeeById(Long id) {
-        boolean exist = isExistById(id);
-        if (!exist) {
-            return false;
-        }
+        isExistById(id);
         employeeRepository.deleteById(id);
         return true;
     }
 
     public EmployeeDTO updatePartialEmployeeById(Long id, Map<String, Object> updates) {
-       boolean exists=isExistById(id);
-       if(!exists)
-           return null;
+       isExistById(id);
        EmployeeEntity employeeEntity=employeeRepository.findById(id).get();
        updates.forEach((field,value)->{
            Field fieldsToBeUpdated=ReflectionUtils.findRequiredField(EmployeeEntity.class,field);
