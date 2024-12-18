@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping(path="/employees")
-public class PostController {
+public class EmployeeController {
 
     @GetMapping(path="/{employeeId}")
     public EmployeeDTO getEmployeeById(@PathVariable(name ="employeeId") Long id){
